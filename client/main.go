@@ -1,11 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"net"
 	"bufio"
-	"fmt"
-	"os"
 	"log"
+	"os"
 )
 
 const (
@@ -13,6 +13,9 @@ const (
 )
 
 func main() {
+	go server()
+
+
 	log.Print("Attempting to connect to " + LADDR)
 	// connect to this socket
 	conn, err := net.Dial("tcp", LADDR)
@@ -35,5 +38,31 @@ func main() {
 		// Server reply
 	  message, _ := bufio.NewReader(conn).ReadString('\n')
 	  fmt.Print("Message from server: "+message)
+	}
+}
+
+func server() {
+	log.Println("Starting server at " + LADDR)
+
+	// Start listening
+	ln, err := net.Listen("tcp", LADDR)
+	if err != nil {
+		log.Print("Failed to start server.")
+	} else {
+		log.Print("Server started. Awaiting connections...")
+	}
+
+	// accept connection on port
+	conn, _ := ln.Accept()
+
+	for {
+		// will listen for message to process ending in newline (\n)
+		message, _ := bufio.NewReader(conn).ReadString('\n')
+		// output message received
+		fmt.Print("Message Received:", string(message))
+
+
+		// send new string back to client
+		conn.Write([]byte("Message received at server!" + "\n"))
 	}
 }
