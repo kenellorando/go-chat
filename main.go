@@ -10,6 +10,7 @@ import (
 
 const (
 	SERVER_ADDR = "localhost:25624"
+	LOCAL_ADDR = "localhost:25624"
 )
 
 func main() {
@@ -42,14 +43,14 @@ func main() {
 }
 
 func server() {
-	log.Println("[SERVER] Starting server at " + SERVER_ADDR)
+	log.Println("[SERVER] Starting server at " + LOCAL_ADDR)
 
 	// Start listening
-	ln, err := net.Listen("tcp", SERVER_ADDR)
+	ln, err := net.Listen("tcp", LOCAL_ADDR)
 	if err != nil {
 		log.Print("[SERVER] Failed to start server.")
 	} else {
-		log.Print("[SERVER] Server started. Awaiting connections on " + SERVER_ADDR)
+		log.Print("[SERVER] Server started. Awaiting connections on " + LOCAL_ADDR)
 		
 	}
 
