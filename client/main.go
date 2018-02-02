@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	LADDR = "127.0.0.1:25624"
+	LADDR = "localhost:25624"
 )
 
 func main() {
