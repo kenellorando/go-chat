@@ -60,7 +60,7 @@ func server(done chan bool) {
 	log.Println("[SERVER] Starting server at " + LOCAL_ADDR)
 
 	// Start listening
-	ln, err := net.Listen("tcp", LOCAL_ADDR)
+	ln, err := net.Listen("tcp", ":40123")
 	if err != nil {
 		log.Print("[SERVER] Failed to start server.")
 	} else {
@@ -69,19 +69,21 @@ func server(done chan bool) {
 
 	done<-true
 
-	// accept connection on port
-	conn, _ := ln.Accept()
-
-
-
 	for {
-		// will listen for message to process ending in newline (\n)
-		message, _ := bufio.NewReader(conn).ReadString('\n')
-		// output message received
-		log.Print("[SERVER] Message received:", string(message))
-
-
-		// send new string back to client
-		conn.Write([]byte("[SERVER] Confirmation reply from server!" + "\n"))
+		// accept connection on port
+		conn, _ := ln.Accept()
+		go listen(conn)
 	}
+}
+
+func listen(conn net.Conn) {
+	// will listen for message to process ending in newline (\n)
+	message, _ := bufio.NewReader(conn).ReadString('\n')
+	// output message received
+	log.Print("[SERVER] Message received:", string(message))
+
+
+	// send new string back to client
+	conn.Write([]byte("[SERVER] Confirmation reply from server!" + "\n"))
+
 }
