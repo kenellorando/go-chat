@@ -24,12 +24,16 @@ func main() {
 	serverAddr, _, err := scan.ReadLine()
 	serverAddrStr := string(serverAddr)
 
+	tcpAddr, err := net.ResolveTCPAddr("tcp", serverAddrStr)
+
+
+
 
 	
 
 	// Connect to given address
 	log.Print("[CLIENT] Attempting to connect to " + serverAddrStr)
-	conn, err := net.Dial("tcp", serverAddrStr)
+	conn, err := net.DialTCP("tcp", nil, tcpAddr)
 	if err != nil {
 		log.Print("[CLIENT] Failed to connect.")
 	} else {
@@ -64,7 +68,7 @@ func server(done chan bool) {
 	}
 
 	done<-true
-	
+
 	// accept connection on port
 	conn, _ := ln.Accept()
 
