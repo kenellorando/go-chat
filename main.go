@@ -9,17 +9,22 @@ import (
 )
 
 const (
-	SERVER_ADDR = "localhost:25624"
 	LOCAL_ADDR = "localhost:25624"
 )
 
 func main() {
+	scan := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter target IP -\n   Examples: localhost:25624, 198.37.25.198:25624\n   > ")
+	serverAddr, _, err := scan.ReadLine()
+	serverAddrStr := string(serverAddr)
+
+
 	// Start server listener
 	go server()
 
 	// Connect to given address
-	log.Print("[CLIENT] Attempting to connect to " + SERVER_ADDR)
-	conn, err := net.Dial("tcp", SERVER_ADDR)
+	log.Print("[CLIENT] Attempting to connect to " + serverAddrStr)
+	conn, err := net.Dial("tcp", serverAddrStr)
 	if err != nil {
 		log.Print("[CLIENT] Failed to connect.")
 	} else {
