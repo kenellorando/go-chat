@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	LOCAL_ADDR = "localhost:25624"
+	LOCAL_ADDR = "localhost:40123"
 )
 
 func main() {
