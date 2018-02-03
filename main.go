@@ -13,14 +13,19 @@ const (
 )
 
 func main() {
+	// Start server listener
+
+	done := make(chan bool)
+	go server(done)
+	<-done
+
 	scan := bufio.NewReader(os.Stdin)
 	fmt.Print("Enter target IP -\n   Examples: localhost:25624, 198.37.25.198:25624\n   > ")
 	serverAddr, _, err := scan.ReadLine()
 	serverAddrStr := string(serverAddr)
 
 
-	// Start server listener
-	go server()
+	
 
 	// Connect to given address
 	log.Print("[CLIENT] Attempting to connect to " + serverAddrStr)
@@ -47,7 +52,7 @@ func main() {
 	}
 }
 
-func server() {
+func server(done chan bool) {
 	log.Println("[SERVER] Starting server at " + LOCAL_ADDR)
 
 	// Start listening
@@ -55,12 +60,15 @@ func server() {
 	if err != nil {
 		log.Print("[SERVER] Failed to start server.")
 	} else {
-		log.Print("[SERVER] Server started. Awaiting connections on " + LOCAL_ADDR)
-		
+		log.Print("[SERVER] Server started. Awaiting connections on " + LOCAL_ADDR)	
 	}
 
+	done<-true
+	
 	// accept connection on port
 	conn, _ := ln.Accept()
+
+
 
 	for {
 		// will listen for message to process ending in newline (\n)
@@ -72,5 +80,4 @@ func server() {
 		// send new string back to client
 		conn.Write([]byte("[SERVER] Confirmation reply from server!" + "\n"))
 	}
-	
 }
