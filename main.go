@@ -20,7 +20,7 @@ func main() {
 	<-done
 
 	scan := bufio.NewReader(os.Stdin)
-	fmt.Print("Enter target IP -\n   Examples: localhost:25624, 198.37.25.198:25624\n   > ")
+	fmt.Print("Enter target IP -\n   Examples: localhost:40123, 198.37.25.198:40123\n   > ")
 	serverAddr, _, err := scan.ReadLine()
 	serverAddrStr := string(serverAddr)
 
