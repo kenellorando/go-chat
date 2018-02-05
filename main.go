@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	LOCAL_ADDR = "localhost:40123"
+	LOCAL_ADDR = "localhost:50123"
 )
 
 func main() {
@@ -20,7 +20,7 @@ func main() {
 	<-done
 
 	scan := bufio.NewReader(os.Stdin)
-	fmt.Print("Enter target IP -\n   Examples: localhost:40123, 198.37.25.198:40123\n   > ")
+	fmt.Print("Enter target IP -\n   Examples: localhost:50123, 198.37.25.198:50123\n   > ")
 	serverAddr, _, err := scan.ReadLine()
 	serverAddrStr := string(serverAddr)
 
@@ -60,7 +60,7 @@ func server(done chan bool) {
 	log.Println("[SERVER] Starting server at " + LOCAL_ADDR)
 
 	// Start listening
-	ln, err := net.Listen("tcp", ":40123")
+	ln, err := net.Listen("tcp", ":50123")
 	if err != nil {
 		log.Print("[SERVER] Failed to start server.")
 	} else {
